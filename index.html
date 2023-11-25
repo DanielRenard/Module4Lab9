@@ -26,10 +26,35 @@
           },
         ],
       };
+      
       fetch("https://fakestoreapi.com/products")
         .then((response) => response.json())
         .then((json) => {
+            // debugger
           console.log(json);
+          let categories = json.map((product) => product.category)
+          console.log(categories)
+          let categoriesSet = new Set(categories)
+          console.log(categoriesSet)
+          let uniqueCategories = [...categoriesSet]
+          console.log(uniqueCategories)
+
+          let categoryData = []
+          
+          uniqueCategories.forEach((category) => {
+              let count =  categories.filter((cat) => category == cat).length
+              categoryData.push(count)
+          }) 
+          console.log(categoryData)
+
+          options.xAxis.data = uniqueCategories
+
+          options.series = [{
+            name: "# products",
+            type: "bar",
+            data: categoryData,
+        }]
+
           // use this JSON to find and set correct option data for the chart
         })
         .then(() => {
